@@ -1,0 +1,109 @@
+"use client";
+
+import * as React from "react";
+import {
+  BookOpen,
+  Bot,
+  Cctv,
+  Command,
+  FileVideo,
+  Frame,
+  House,
+  LifeBuoy,
+  Map,
+  PieChart,
+  Radar,
+  Send,
+  Settings2,
+  SquareTerminal,
+  Image,
+  CarFront,
+  History,
+} from "lucide-react";
+
+import { NavMain } from "@/components/nav-main";
+import { NavProjects } from "@/components/nav-projects";
+import { NavSecondary } from "@/components/nav-secondary";
+import { NavUser } from "@/components/nav-user";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
+
+const data = {
+  user: {
+    name: "parking",
+    email: "parking@example.com",
+    avatar: "/avatars/shadcn.jpg",
+  },
+  navMain: [
+    {
+      title: "Kiểm soát Ra/Vào",
+      url: "#",
+      icon: Radar,
+      isActive: true,
+      items: [
+        {
+          title: "Phân tích Hình ảnh",
+          url: "image_ALPR",
+          item_icon: Image,
+        },
+        {
+          title: "Phân tích Video",
+          url: "video_ALPR",
+          item_icon: FileVideo,
+        },
+      ],
+    },
+  ],
+  navSecondary: [
+    {
+      title: "Support",
+      url: "#",
+      icon: LifeBuoy,
+    },
+    {
+      title: "Feedback",
+      url: "#",
+      icon: Send,
+    },
+  ],
+  projects: [
+    {
+      name: "Trang Chủ",
+      url: "/#",
+      icon: House,
+    },
+    {
+      name: "Quản lý phương tiện",
+      url: "vehicle-management",
+      icon: CarFront,
+    },
+    {
+      name: "Lịch sử",
+      url: "history",
+      icon: History,
+    },
+  ],
+};
+
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  return (
+    <Sidebar variant="inset" {...props}>
+      <SidebarContent>
+        <NavProjects projects={data.projects} />
+        <NavMain items={data.navMain} />
+
+        {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
+      </SidebarContent>
+      <SidebarFooter>
+        <NavUser user={data.user} />
+      </SidebarFooter>
+    </Sidebar>
+  );
+}
