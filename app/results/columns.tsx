@@ -130,12 +130,12 @@ export const columns: ColumnDef<GroupedPlate>[] = [
                     <TableCell>
                       {plate.is_blacklist ? (
                         <>
-                          <AlertCircle className="text-green-500 w-4 h-4" />
+                          <CheckCircle className="text-green-500 w-4 h-4" />
                           <span className="text-green-500 font-medium">Có</span>
                         </>
                       ) : (
                         <>
-                          <CheckCircle className="text-red-500 w-4 h-4" />
+                          <AlertCircle className="text-red-500 w-4 h-4" />
                           <span className="text-red-600">Không</span>
                         </>
                       )}
@@ -161,7 +161,7 @@ export const columns: ColumnDef<GroupedPlate>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Đang vi phạm
+          Trạng thái đăng ký
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -173,13 +173,13 @@ export const columns: ColumnDef<GroupedPlate>[] = [
         <span className="flex items-center gap-2">
           {is_blacklist ? (
             <>
-              <AlertCircle className="text-red-500 w-4 h-4" />
-              <span className="text-red-500 font-medium">Có</span>
+              <CheckCircle className="text-green-500 w-4 h-4" />
+              <span className="text-green-500 font-medium">Có</span>
             </>
           ) : (
             <>
-              <CheckCircle className="text-green-500 w-4 h-4" />
-              <span className="text-green-600">Không</span>
+              <AlertCircle className="text-red-500 w-4 h-4" />
+              <span className="text-red-600">Không</span>
             </>
           )}
         </span>

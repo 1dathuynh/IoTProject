@@ -104,10 +104,76 @@ function groupPlatesByVehicleId(plates: Plate[], raw: rawData): GroupedPlate[] {
     });
   });
 
+  // return Object.values(grouped).map((group) => {
+
+  //   const total = group.confidences.reduce((sum, c) => sum + c, 0);
+
+  //   // Tìm first_timestamp từ raw.results
+  //   const timestamps = raw.results
+  //     .filter((r) =>
+  //       r.plates.some(
+  //         (p) =>
+  //           p.vehicle_id === group.vehicle_id &&
+  //           p.confidence !== -1 &&
+  //           p.plate_number !== "-1"
+  //       )
+  //     )
+  //     .map((r) => r.timestamp);
+
+  //   const first_timestamp = timestamps.sort()[0] ?? null;
+  //   // Tính trung bình confidence theo từng plate_number
+  //   const plateGroups: Record<
+  //     string,
+  //     { confidences: number[]; is_blacklist: boolean }
+  //   > = {};
+
+  //   group._confidenceMap.forEach(({ plate, confidence, is_blacklist }) => {
+  //     if (!plateGroups[plate]) {
+  //       plateGroups[plate] = {
+  //         confidences: [],
+  //         is_blacklist: is_blacklist, // lấy theo lần đầu gặp
+  //       };
+  //     }
+  //     plateGroups[plate].confidences.push(confidence);
+
+  //     // Nếu bạn muốn cập nhật is_blacklist bất kỳ khi nào gặp true
+  //     if (is_blacklist) {
+  //       plateGroups[plate].is_blacklist = true;
+  //     }
+  //   });
+
+  //   const plate_stats = Object.entries(plateGroups).map(
+  //     ([plate_number, { confidences, is_blacklist }]) => ({
+  //       plate_number,
+  //       average_confidence:
+  //         confidences.reduce((sum, c) => sum + c, 0) / confidences.length,
+  //       is_blacklist: is_blacklist ? 1 : 0,
+  //     })
+  //   );
+
+  //   const bestPlate = plate_stats.reduce(
+  //     (best, current) =>
+  //       current.average_confidence > best.average_confidence ? current : best,
+  //     { plate_number: "", average_confidence: -1 }
+  //   );
+  //   const is_blacklist =
+  //     plate_stats.find((p) => p.plate_number == bestPlate.plate_number)
+  //       ?.is_blacklist ?? 0;
+
+  //   // console.log(bestPlate1);
+  //   // console.log("Plate Stats:", plate_stats);
+  //   return {
+  //     ...group,
+  //     average_confidence: bestPlate.average_confidence,
+  //     best_plate_number: bestPlate.plate_number,
+  //     first_timestamp,
+  //     plate_stats,
+  //     is_blacklist: is_blacklist === 1,
+  //   };
+  // });
   return Object.values(grouped).map((group) => {
     const total = group.confidences.reduce((sum, c) => sum + c, 0);
 
-    // Tìm first_timestamp từ raw.results
     const timestamps = raw.results
       .filter((r) =>
         r.plates.some(
@@ -120,7 +186,7 @@ function groupPlatesByVehicleId(plates: Plate[], raw: rawData): GroupedPlate[] {
       .map((r) => r.timestamp);
 
     const first_timestamp = timestamps.sort()[0] ?? null;
-    // Tính trung bình confidence theo từng plate_number
+
     const plateGroups: Record<
       string,
       { confidences: number[]; is_blacklist: boolean }
@@ -130,12 +196,11 @@ function groupPlatesByVehicleId(plates: Plate[], raw: rawData): GroupedPlate[] {
       if (!plateGroups[plate]) {
         plateGroups[plate] = {
           confidences: [],
-          is_blacklist: is_blacklist, // lấy theo lần đầu gặp
+          is_blacklist,
         };
       }
       plateGroups[plate].confidences.push(confidence);
 
-      // Nếu bạn muốn cập nhật is_blacklist bất kỳ khi nào gặp true
       if (is_blacklist) {
         plateGroups[plate].is_blacklist = true;
       }
@@ -146,28 +211,23 @@ function groupPlatesByVehicleId(plates: Plate[], raw: rawData): GroupedPlate[] {
         plate_number,
         average_confidence:
           confidences.reduce((sum, c) => sum + c, 0) / confidences.length,
-        is_blacklist: is_blacklist ? 1 : 0,
+        is_blacklist,
       })
     );
 
     const bestPlate = plate_stats.reduce(
       (best, current) =>
         current.average_confidence > best.average_confidence ? current : best,
-      { plate_number: "", average_confidence: -1 }
+      { plate_number: "", average_confidence: -1, is_blacklist: false }
     );
-    const is_blacklist =
-      plate_stats.find((p) => p.plate_number == bestPlate.plate_number)
-        ?.is_blacklist ?? 0;
 
-    // console.log(bestPlate1);
-    // console.log("Plate Stats:", plate_stats);
     return {
       ...group,
       average_confidence: bestPlate.average_confidence,
       best_plate_number: bestPlate.plate_number,
       first_timestamp,
       plate_stats,
-      is_blacklist: is_blacklist,
+      is_blacklist: bestPlate.is_blacklist, // ✔ boolean
     };
   });
 }

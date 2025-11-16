@@ -45,12 +45,9 @@ export default function Page() {
           {/* Giới thiệu */}
           <section className="text-center py-6">
             <h1 className="text-3xl font-bold text-gray-900">
-              Chào mừng đến với Bãi đỗ xe thông minh
+              Chào mừng đến với Hệ thống mô phỏng mở cửa thông minh
             </h1>
-            <p className="text-lg text-gray-700 mt-4">
-              Chúng tôi cung cấp các giải pháp đỗ xe thông minh, giúp bạn tìm
-              kiếm và sử dụng chỗ đỗ một cách nhanh chóng và tiện lợi.
-            </p>
+            <p className="text-lg text-gray-700 mt-4"></p>
           </section>
         </div>
       </SidebarInset>
