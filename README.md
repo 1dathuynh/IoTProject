@@ -11,6 +11,7 @@ Hệ thống bao gồm:
 - **Proteus** – Mô phỏng phần cứng (servo, Arduino, LCD I2C).
 
 ---
+<img width="1896" height="906" alt="image" src="https://github.com/user-attachments/assets/27be09a3-277d-4a8f-a98b-c6189e80ce8d" />
 
 ## 📋 Mục lục
 
