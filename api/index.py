@@ -250,6 +250,8 @@ class ALPRModel_Image(ALPRModel):
                 is_blacklisted = check_blacklist(text)
                 if is_blacklisted:
                     send_to_arduino(text)
+                else:
+                    send_to_arduino("NONE")
                 all_texts.append({ "order": order, "text": text, "score": score, "annotated_lp": f"/task_results/{run_uuid}/annotated_{order}.jpg", "warped_lp": f"/task_results/{run_uuid}/warped_{order}.jpg", "vehicle_type": object_name })
         
         end_time = time.time()
@@ -378,6 +380,9 @@ class ALPRModel_Video(ALPRModel):
                             is_blacklisted = check_blacklist(text)
                             if is_blacklisted:
                                 send_to_arduino(text)
+                            else:
+                                send_to_arduino("NONE")
+
                             plates.append({"vehicle_id": track_id, "text": text, "confidence": score, "vehicle_type": object_name, "plate_image": f'/task_results/{run_uuid}/warped_{track_id}.jpg'})
         
         return annotator.result(), plates
